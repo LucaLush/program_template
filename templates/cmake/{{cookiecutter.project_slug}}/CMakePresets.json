@@ -5,6 +5,9 @@
       "name": "default",
       "displayName": "Default Config",
       "description": "Default configuration using standard compiler",
+      {%- if cookiecutter.use_ninja == "yes" %}
+      "generator": "Ninja",
+      {%- endif %}
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
