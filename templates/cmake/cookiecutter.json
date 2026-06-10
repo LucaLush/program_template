@@ -1,0 +1,10 @@
+{
+  "project_name": "My Awesome Project",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "cmake_minimum_version": "3.20",
+  "cpp_standard": ["17", "11", "14", "20", "23"],
+  "project_type": ["Executable", "Library"],
+  "use_vcpkg": ["yes", "no"],
+  "use_doxygen": ["yes", "no"],
+  "add_testing": ["yes", "no"]
+}

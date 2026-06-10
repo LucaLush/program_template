@@ -1,2 +1,61 @@
-# program_template
-myprogram_template
+# Project Templates Monorepo
+
+This repository is a monorepo containing various project templates designed to be instantiated using [Cookiecutter](https://github.com/cookiecutter/cookiecutter).
+
+By storing different types of project templates in a single repository, we keep templates unified and easy to maintain.
+
+---
+
+## How to Use
+
+Cookiecutter (since version 1.7.0) supports generating projects from templates stored in subdirectories of a repository using the `--directory` option.
+
+### Prerequisites
+
+First, ensure you have Cookiecutter installed:
+```bash
+pip install cookiecutter
+# Or via brew/apt depending on your OS
+```
+
+### 1. CMake C++ Project Template
+
+A modern CMake-based C++ template featuring target-based configuration, vcpkg dependency management, Doxygen integration, and unit testing presets.
+
+#### Instantiation
+
+To generate a new C++ project using this template, run:
+
+**Using Git Repository:**
+```bash
+cookiecutter https://github.com/LucaLush/program_template.git --directory="templates/cmake"
+```
+
+**Using Local Directory:**
+```bash
+cookiecutter /path/to/program_template --directory="templates/cmake"
+```
+
+#### Template Configuration Options
+
+During instantiation, Cookiecutter will prompt you for the following configurations:
+
+| Prompt | Description | Default | Choices / Format |
+|---|---|---|---|
+| `project_name` | Human-readable name of your project | `My Awesome Project` | Any text |
+| `project_slug` | Code-safe project identifier (automatically generated) | `my_awesome_project` | lowercase_with_underscores |
+| `cmake_minimum_version` | Minimum required CMake version | `3.20` | e.g. `3.15`, `3.22` |
+| `cpp_standard` | C++ standard version to target | `17` | `11`, `14`, `17`, `20`, `23` |
+| `project_type` | Build output target type | `Executable` | `Executable`, `Library` |
+| `use_vcpkg` | Enable vcpkg package manager in manifest mode | `yes` | `yes`, `no` |
+| `use_doxygen` | Configure Doxygen documentation generation target | `yes` | `yes`, `no` |
+| `add_testing` | Add testing support (using CTest & GoogleTest) | `yes` | `yes`, `no` |
+
+---
+
+## Contributing
+
+To add a new template, create a folder under `templates/` with your template name (e.g. `templates/python`), containing:
+1. `cookiecutter.json`
+2. The template project folder (e.g. `{{cookiecutter.project_slug}}/`)
+3. Optional `hooks/` folder for pre/post-generation scripts.

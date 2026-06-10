@@ -1,0 +1,22 @@
+# CMake build outputs
+build/
+out/
+cmake-build-*/
+
+# Package Managers
+vcpkg_installed/
+
+# IDE files
+.idea/
+.vscode/
+*.user
+*.suo
+*.sln
+
+# Doxygen outputs
+docs/html/
+docs/latex/
+
+# OS files
+.DS_Store
+Thumbs.db

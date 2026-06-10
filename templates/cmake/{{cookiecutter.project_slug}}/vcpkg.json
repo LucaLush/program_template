@@ -1,0 +1,9 @@
+{
+  "name": "{{ cookiecutter.project_slug }}",
+  "version-string": "0.1.0",
+  "dependencies": [
+    {%- if cookiecutter.add_testing == "yes" %}
+    "gtest"
+    {%- endif %}
+  ]
+}
