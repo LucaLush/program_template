@@ -2,7 +2,7 @@
 PROJECT_NAME           = "@PROJECT_NAME@"
 PROJECT_NUMBER         = "@PROJECT_VERSION@"
 OUTPUT_DIRECTORY       = "@CMAKE_CURRENT_BINARY_DIR@/docs"
-CREATE_SUBDIRS         = NO
+CREATE_SUBDIRS         = YES
 ALLOW_UNICODE_NAMES    = NO
 OUTPUT_LANGUAGE        = English
 BRIEF_MEMBER_DESC      = YES
@@ -35,3 +35,17 @@ HTML_FILE_EXTENSION    = .html
 
 # LaTeX generation (disabled by default)
 GENERATE_LATEX         = NO
+
+CALL_GRAPH             = YES
+CALLER_GRAPH           = YES
+UML_LOOK               = YES
+
+HAVE_DOT               = YES
+EXTRACT_ALL            = YES
+EXTRACT_LOCAL_CLASSES  = YES
+EXTRACT_PRIVATE        = YES
+
+EXTRACT_STATIC         = YES
+
+REFERENCED_BY_RELATION = NO
+REFERENCES_RELATION    = NO
