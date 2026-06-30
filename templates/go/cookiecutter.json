@@ -1,0 +1,9 @@
+{
+  "project_name": "My Go Project",
+  "project_slug": "{{ cookiecutter.project_name.lower().replace(' ', '_').replace('-', '_') }}",
+  "go_module": "{{ cookiecutter.project_slug }}",
+  "go_version": "1.21",
+  "default_build_target": ["all", "amd64", "arm64"],
+  "add_linter": ["yes", "no"],
+  "add_dockerfile": ["yes", "no"]
+}

@@ -1,0 +1,8 @@
+app:
+  name: "{{ cookiecutter.project_name }}"
+  env: "development"
+  log_level: "debug"
+
+server:
+  host: "0.0.0.0"
+  port: 8080

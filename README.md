@@ -51,6 +51,38 @@ During instantiation, Cookiecutter will prompt you for the following configurati
 | `use_doxygen` | Configure Doxygen documentation generation target | `yes` | `yes`, `no` |
 | `add_testing` | Add testing support (using CTest & GoogleTest) | `yes` | `yes`, `no` |
 
+### 2. Go Project Template
+
+An industrial-grade Go service template featuring structured config, structured logging (`slog`), multi-architecture builds, robust testing targets, and an automated package pipeline.
+
+#### Instantiation
+
+To generate a new Go project using this template, run:
+
+**Using Git Repository:**
+```bash
+cookiecutter https://github.com/LucaLush/program_template.git --directory="templates/go"
+```
+
+**Using Local Directory:**
+```bash
+cookiecutter /path/to/program_template --directory="templates/go"
+```
+
+#### Template Configuration Options
+
+During instantiation, Cookiecutter will prompt you for the following configurations:
+
+| Prompt | Description | Default | Choices / Format |
+|---|---|---|---|
+| `project_name` | Human-readable name of your project | `My Go Project` | Any text |
+| `project_slug` | Code-safe project identifier (automatically generated) | `my_go_project` | lowercase_with_underscores |
+| `go_module` | Go module import path | `my_go_project` | e.g. `github.com/user/repo` |
+| `go_version` | Target Go version | `1.21` | e.g. `1.20`, `1.21`, `1.22` |
+| `default_build_target` | Default build platform architecture | `all` | `all`, `amd64`, `arm64` |
+| `add_linter` | Include `golangci-lint` configuration (`.golangci.yml`) | `yes` | `yes`, `no` |
+| `add_dockerfile` | Include multi-stage container build `Dockerfile` | `yes` | `yes`, `no` |
+
 ---
 
 ## Contributing
