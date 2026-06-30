@@ -29,6 +29,14 @@ func main() {
 	}
 
 	// Initialize configuration
+	if configFile == "configs/config.yaml" {
+		if _, err := os.Stat(configFile); os.IsNotExist(err) {
+			if _, err := os.Stat("config.yaml"); err == nil {
+				configFile = "config.yaml"
+			}
+		}
+	}
+
 	cfg, err := config.Load(configFile)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to load configuration: %v\n", err)

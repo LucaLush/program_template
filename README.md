@@ -83,6 +83,7 @@ During instantiation, Cookiecutter will prompt you for the following configurati
 | `default_build_target` | Default build platform architecture | `all` | `all`, `amd64`, `arm64` |
 | `add_linter` | Include `golangci-lint` configuration (`.golangci.yml`) | `yes` | `yes`, `no` |
 | `add_dockerfile` | Include multi-stage container build `Dockerfile` | `yes` | `yes`, `no` |
+| `add_systemd` | Include systemd service configuration file (`<slug>.service`) | `yes` | `yes`, `no` |
 
 ---
 

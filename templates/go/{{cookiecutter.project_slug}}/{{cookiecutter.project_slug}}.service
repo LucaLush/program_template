@@ -1,0 +1,14 @@
+[Unit]
+Description={{ cookiecutter.project_name }} Service
+After=network.target
+
+[Service]
+Type=simple
+User=nobody
+WorkingDirectory=/usr/local/bin
+ExecStart=/usr/local/bin/{{ cookiecutter.project_slug }} --config /etc/{{ cookiecutter.project_slug }}/config.yaml
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

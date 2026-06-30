@@ -6,5 +6,6 @@
   "project_type": ["CLI/Daemon", "Web Service"],
   "default_build_target": ["all", "amd64", "arm64"],
   "add_linter": ["yes", "no"],
-  "add_dockerfile": ["yes", "no"]
+  "add_dockerfile": ["yes", "no"],
+  "add_systemd": ["yes", "no"]
 }

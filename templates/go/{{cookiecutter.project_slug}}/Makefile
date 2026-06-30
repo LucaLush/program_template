@@ -92,11 +92,13 @@ build: build-arm64
 build-amd64:
 	@echo "Building $(BINARY_NAME) for linux/amd64..."
 	GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -o $(BUILD_DIR)/amd64/$(BINARY_NAME) cmd/$(BINARY_NAME)/main.go
+	@if [ -d "$(CONFIG_DIR)" ]; then cp -r $(CONFIG_DIR)/* $(BUILD_DIR)/amd64/; fi
 
 .PHONY: build-arm64
 build-arm64:
 	@echo "Building $(BINARY_NAME) for linux/arm64..."
 	GOOS=linux GOARCH=arm64 go build $(LDFLAGS) -o $(BUILD_DIR)/arm64/$(BINARY_NAME) cmd/$(BINARY_NAME)/main.go
+	@if [ -d "$(CONFIG_DIR)" ]; then cp -r $(CONFIG_DIR)/* $(BUILD_DIR)/arm64/; fi
 
 .PHONY: build-all
 build-all: build-amd64 build-arm64
@@ -116,8 +118,9 @@ pack-amd64: build-amd64
 	@echo "Packing $(BINARY_NAME) for linux/amd64..."
 	@mkdir -p $(BUILD_DIR)/tmp-amd64/$(BINARY_NAME)
 	@cp $(BUILD_DIR)/amd64/$(BINARY_NAME) $(BUILD_DIR)/tmp-amd64/$(BINARY_NAME)/
-	@if [ -d "$(CONFIG_DIR)" ]; then cp -r $(CONFIG_DIR) $(BUILD_DIR)/tmp-amd64/$(BINARY_NAME)/; fi
+	@if [ -d "$(CONFIG_DIR)" ]; then cp -r $(CONFIG_DIR)/* $(BUILD_DIR)/tmp-amd64/$(BINARY_NAME)/; fi
 	@if [ -f "README.md" ]; then cp README.md $(BUILD_DIR)/tmp-amd64/$(BINARY_NAME)/; fi
+	@if [ -f "$(BINARY_NAME).service" ]; then cp $(BINARY_NAME).service $(BUILD_DIR)/tmp-amd64/$(BINARY_NAME)/; fi
 	@cd $(BUILD_DIR)/tmp-amd64 && tar -czf ../$(BINARY_NAME)-linux-amd64.tar.gz $(BINARY_NAME)
 	@rm -rf $(BUILD_DIR)/tmp-amd64
 	@echo "Successfully created $(BUILD_DIR)/$(BINARY_NAME)-linux-amd64.tar.gz"
@@ -127,8 +130,9 @@ pack-arm64: build-arm64
 	@echo "Packing $(BINARY_NAME) for linux/arm64..."
 	@mkdir -p $(BUILD_DIR)/tmp-arm64/$(BINARY_NAME)
 	@cp $(BUILD_DIR)/arm64/$(BINARY_NAME) $(BUILD_DIR)/tmp-arm64/$(BINARY_NAME)/
-	@if [ -d "$(CONFIG_DIR)" ]; then cp -r $(CONFIG_DIR) $(BUILD_DIR)/tmp-arm64/$(BINARY_NAME)/; fi
+	@if [ -d "$(CONFIG_DIR)" ]; then cp -r $(CONFIG_DIR)/* $(BUILD_DIR)/tmp-arm64/$(BINARY_NAME)/; fi
 	@if [ -f "README.md" ]; then cp README.md $(BUILD_DIR)/tmp-arm64/$(BINARY_NAME)/; fi
+	@if [ -f "$(BINARY_NAME).service" ]; then cp $(BINARY_NAME).service $(BUILD_DIR)/tmp-arm64/$(BINARY_NAME)/; fi
 	@cd $(BUILD_DIR)/tmp-arm64 && tar -czf ../$(BINARY_NAME)-linux-arm64.tar.gz $(BINARY_NAME)
 	@rm -rf $(BUILD_DIR)/tmp-arm64
 	@echo "Successfully created $(BUILD_DIR)/$(BINARY_NAME)-linux-arm64.tar.gz"
