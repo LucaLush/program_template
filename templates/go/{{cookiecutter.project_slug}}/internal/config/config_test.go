@@ -12,9 +12,11 @@ app:
   name: "test-app"
   env: "test"
   log_level: "debug"
+{% if cookiecutter.project_type == 'Web Service' -%}
 server:
   host: "localhost"
   port: 8081
+{%- endif %}
 `)
 	tmpFile, err := os.CreateTemp("", "config-*.yaml")
 	if err != nil {
@@ -37,9 +39,11 @@ server:
 	if cfg.App.Name != "test-app" {
 		t.Errorf("expected app.name to be 'test-app', got '%s'", cfg.App.Name)
 	}
+{% if cookiecutter.project_type == 'Web Service' -%}
 	if cfg.Server.Port != 8081 {
 		t.Errorf("expected server.port to be 8081, got %d", cfg.Server.Port)
 	}
+{%- endif %}
 }
 
 func TestLoadInvalid(t *testing.T) {

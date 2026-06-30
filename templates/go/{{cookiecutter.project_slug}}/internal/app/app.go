@@ -1,6 +1,7 @@
 package app
 
 import (
+{% if cookiecutter.project_type == 'Web Service' -%}
 	"context"
 	"fmt"
 	"log/slog"
@@ -11,10 +12,21 @@ import (
 	"time"
 
 	"{{ cookiecutter.go_module }}/internal/config"
+{%- else -%}
+	"context"
+	"log/slog"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
+	"{{ cookiecutter.go_module }}/internal/config"
+{%- endif %}
 )
 
-// Run runs the main application server loop
+// Run runs the main application loop
 func Run(cfg *config.Config) error {
+{% if cookiecutter.project_type == 'Web Service' -%}
 	// A simple industrial server with graceful shutdown
 	mux := http.NewServeMux()
 	mux.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
@@ -70,6 +82,27 @@ func Run(cfg *config.Config) error {
 		}
 		slog.Info("Server stopped cleanly")
 	}
+{%- else -%}
+	// Graceful shutdown context
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+	defer stop()
 
+	slog.Info("Application started. Running background tasks...")
+
+	// Example background loop representing general work
+	ticker := time.NewTicker(2 * time.Second)
+	defer ticker.Stop()
+
+	for {
+		select {
+		case <-ticker.C:
+			slog.Info("Performing periodic task...")
+		case <-ctx.Done():
+			slog.Info("Shutting down gracefully...")
+			// Perform cleanup here
+			return nil
+		}
+	}
+{%- endif %}
 	return nil
 }

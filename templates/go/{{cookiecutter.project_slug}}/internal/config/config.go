@@ -9,7 +9,9 @@ import (
 
 type Config struct {
 	App    AppConfig    `yaml:"app"`
+{% if cookiecutter.project_type == 'Web Service' -%}
 	Server ServerConfig `yaml:"server"`
+{%- endif %}
 }
 
 type AppConfig struct {
@@ -18,10 +20,12 @@ type AppConfig struct {
 	LogLevel string `yaml:"log_level"`
 }
 
+{% if cookiecutter.project_type == 'Web Service' -%}
 type ServerConfig struct {
 	Host string `yaml:"host"`
 	Port int    `yaml:"port"`
 }
+{%- endif %}
 
 // Load loads the configuration from a YAML file
 func Load(path string) (*Config, error) {
@@ -41,9 +45,11 @@ func Load(path string) (*Config, error) {
 	if cfg.App.Name == "" {
 		return nil, fmt.Errorf("app.name is required")
 	}
+{% if cookiecutter.project_type == 'Web Service' -%}
 	if cfg.Server.Port <= 0 {
 		return nil, fmt.Errorf("server.port must be positive")
 	}
+{%- endif %}
 
 	return &cfg, nil
 }

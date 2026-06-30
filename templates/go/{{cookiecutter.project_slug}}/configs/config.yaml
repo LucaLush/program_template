@@ -3,6 +3,8 @@ app:
   env: "development"
   log_level: "debug"
 
+{% if cookiecutter.project_type == 'Web Service' %}
 server:
   host: "0.0.0.0"
   port: 8080
+{%- endif %}

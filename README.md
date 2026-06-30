@@ -79,6 +79,7 @@ During instantiation, Cookiecutter will prompt you for the following configurati
 | `project_slug` | Code-safe project identifier (automatically generated) | `my_go_project` | lowercase_with_underscores |
 | `go_module` | Go module import path | `my_go_project` | e.g. `github.com/user/repo` |
 | `go_version` | Target Go version | `1.21` | e.g. `1.20`, `1.21`, `1.22` |
+| `project_type` | Type of Go application template | `CLI/Daemon` | `CLI/Daemon`, `Web Service` |
 | `default_build_target` | Default build platform architecture | `all` | `all`, `amd64`, `arm64` |
 | `add_linter` | Include `golangci-lint` configuration (`.golangci.yml`) | `yes` | `yes`, `no` |
 | `add_dockerfile` | Include multi-stage container build `Dockerfile` | `yes` | `yes`, `no` |
