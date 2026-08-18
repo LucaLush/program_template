@@ -1,0 +1,13 @@
+site_name: {{ cookiecutter.project_name }}
+site_description: {{ cookiecutter.project_description }}
+site_author: {{ cookiecutter.author_name }}
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+
+nav:
+  - Home: index.md

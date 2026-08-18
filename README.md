@@ -85,6 +85,42 @@ During instantiation, Cookiecutter will prompt you for the following configurati
 | `add_dockerfile` | Include multi-stage container build `Dockerfile` | `yes` | `yes`, `no` |
 | `add_systemd` | Include systemd service configuration file (`<slug>.service`) | `yes` | `yes`, `no` |
 
+### 3. Python Project Template
+
+An enterprise-ready, PEP 621-compliant modern Python template featuring `src/` layout, `hatchling` build backend, `ruff` linting and formatting, strict `mypy` type checking, `pytest` coverage testing, multi-stage `Dockerfile`, and flexible support for both CLI applications (Typer/Click/Argparse) and pure libraries/packages.
+
+#### Instantiation
+
+To generate a new Python project using this template, run:
+
+**Using Git Repository:**
+```bash
+cookiecutter https://github.com/LucaLush/program_template.git --directory="templates/python"
+```
+
+**Using Local Directory:**
+```bash
+cookiecutter /path/to/program_template --directory="templates/python"
+```
+
+#### Template Configuration Options
+
+During instantiation, Cookiecutter will prompt you for the following configurations:
+
+| Prompt | Description | Default | Choices / Format |
+|---|---|---|---|
+| `project_name` | Human-readable name of your project | `My Python Project` | Any text |
+| `project_slug` | Code-safe project identifier (automatically generated) | `my_python_project` | lowercase_with_underscores |
+| `project_description` | Short description of the project | `A modern Python project.` | Any text |
+| `author_name` | Author or maintainer name | `Developer` | Any text |
+| `author_email` | Author or maintainer email address | `dev@example.com` | Email format |
+| `python_version` | Minimum required Python version | `3.10` | `3.10`, `3.11`, `3.12`, `3.13` |
+| `project_type` | Type of Python project | `CLI Application` | `CLI Application`, `Library/Package` |
+| `cli_framework` | CLI framework (when `project_type` is `CLI Application`) | `typer` | `typer`, `argparse`, `click` |
+| `add_dockerfile` | Include multi-stage container build `Dockerfile` | `yes` | `yes`, `no` |
+| `add_docs` | Include MkDocs documentation template | `no` | `yes`, `no` |
+| `add_github_actions` | Include GitHub Actions CI workflow (`.github/workflows/ci.yml`) | `yes` | `yes`, `no` |
+
 ---
 
 ## Contributing
@@ -93,3 +129,4 @@ To add a new template, create a folder under `templates/` with your template nam
 1. `cookiecutter.json`
 2. The template project folder (e.g. `{{cookiecutter.project_slug}}/`)
 3. Optional `hooks/` folder for pre/post-generation scripts.
+
