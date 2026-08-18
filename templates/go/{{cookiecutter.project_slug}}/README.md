@@ -1,5 +1,84 @@
 # {{ cookiecutter.project_name }}
 
+{% if cookiecutter.project_type == "Library/Package" -%}
+A Go library module designed for modularity, clean APIs, and easy integration into other Go applications.
+
+## Prerequisites
+
+- [Go](https://go.dev/doc/install) (version `{{ cookiecutter.go_version }}` or higher)
+- [make](https://www.gnu.org/software/make/)
+
+## Project Structure
+
+```text
+├── doc.go                  # Package-level documentation comments
+├── {{ cookiecutter.project_slug }}.go  # Core public library logic and APIs
+├── {{ cookiecutter.project_slug }}_test.go # Unit tests and benchmarks
+├── example_test.go         # Executable godoc example tests
+├── Makefile                # Task runner for tests, benchmarks, linting
+└── go.mod                  # Go module definition
+```
+
+## Installation
+
+```bash
+go get {{ cookiecutter.go_module }}
+```
+
+## Usage
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	"{{ cookiecutter.go_module }}"
+)
+
+func main() {
+	client := {{ cookiecutter.project_slug.replace('-', '_') }}.New(
+		{{ cookiecutter.project_slug.replace('-', '_') }}.WithGreeting("Hello"),
+	)
+	msg, err := client.Greet("Gopher")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(msg)
+}
+```
+
+## Development & Testing
+
+### Run Tests & Benchmarks
+
+- **Run all unit tests:**
+  ```bash
+  make test
+  ```
+- **Run tests with visual HTML coverage report:**
+  ```bash
+  make test-cov
+  ```
+  The report will be located at `build/coverage.html`.
+- **Run performance benchmarks:**
+  ```bash
+  make bench
+  ```
+
+### Linting & Formatting
+
+- **Format source code:**
+  ```bash
+  make fmt
+  ```
+- **Run code linter (`golangci-lint`):**
+  ```bash
+  make lint
+  ```
+
+{% else -%}
 An industrial-grade Go project template built using Clean Architecture principles.
 
 ## Prerequisites
@@ -129,3 +208,4 @@ To clean up Go build binaries and packed archives:
 ```bash
 make clean
 ```
+{% endif -%}

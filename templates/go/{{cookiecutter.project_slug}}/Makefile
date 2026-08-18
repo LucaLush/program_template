@@ -2,6 +2,7 @@
 BINARY_NAME = {{ cookiecutter.project_slug }}
 MODULE_NAME = {{ cookiecutter.go_module }}
 BUILD_DIR = build
+{% if cookiecutter.project_type != "Library/Package" -%}
 CONFIG_DIR = configs
 VERSION ?= $(shell git describe --tags --always --dirty 2>/dev/null || echo "v0.1.0")
 COMMIT = $(shell git rev-parse --short HEAD 2>/dev/null || echo "unknown")
@@ -12,10 +13,15 @@ LDFLAGS = -ldflags "-X $(MODULE_NAME)/internal/version.Version=$(VERSION) \
                     -X $(MODULE_NAME)/internal/version.Commit=$(COMMIT) \
                     -X $(MODULE_NAME)/internal/version.BuildTime=$(BUILD_TIME) \
                     -w -s"
+{% endif -%}
 
 # Default target
 .PHONY: all
+{% if cookiecutter.project_type == "Library/Package" -%}
+all: test
+{% else -%}
 all: build
+{% endif -%}
 
 # Help target
 .PHONY: help
@@ -23,12 +29,16 @@ help:
 	@echo "Usage: make <target>"
 	@echo ""
 	@echo "Development targets:"
+{% if cookiecutter.project_type != "Library/Package" -%}
 	@echo "  run           Run the application locally"
+{% endif -%}
 	@echo "  test          Run unit tests"
 	@echo "  test-cov      Run unit tests and generate coverage report"
+	@echo "  bench         Run benchmarks"
 	@echo "  lint          Run golangci-lint"
 	@echo "  fmt           Format Go code"
 	@echo "  tidy          Run go mod tidy"
+{% if cookiecutter.project_type != "Library/Package" -%}
 	@echo ""
 	@echo "Build targets:"
 	@echo "  build         Build for the default target ({{ cookiecutter.default_build_target }})"
@@ -41,14 +51,17 @@ help:
 	@echo "  pack-amd64    Pack linux/amd64"
 	@echo "  pack-arm64    Pack linux/arm64"
 	@echo "  pack-all      Pack both targets"
+{% endif -%}
 	@echo ""
 	@echo "Clean targets:"
 	@echo "  clean         Clean up build artifacts"
 
 # Development targets
+{% if cookiecutter.project_type != "Library/Package" -%}
 .PHONY: run
 run:
 	go run $(LDFLAGS) cmd/$(BINARY_NAME)/main.go --config $(CONFIG_DIR)/config.yaml
+{% endif -%}
 
 .PHONY: test
 test:
@@ -60,6 +73,10 @@ test-cov:
 	go test -v -race -coverprofile=$(BUILD_DIR)/coverage.out ./...
 	go tool cover -html=$(BUILD_DIR)/coverage.out -o $(BUILD_DIR)/coverage.html
 	@echo "Coverage report generated at $(BUILD_DIR)/coverage.html"
+
+.PHONY: bench
+bench:
+	go test -v -benchmem -bench=. ./...
 
 .PHONY: lint
 lint:
@@ -78,6 +95,7 @@ fmt:
 tidy:
 	go mod tidy
 
+{% if cookiecutter.project_type != "Library/Package" -%}
 # Build targets
 .PHONY: build
 {% if cookiecutter.default_build_target == 'all' -%}
@@ -139,6 +157,7 @@ pack-arm64: build-arm64
 
 .PHONY: pack-all
 pack-all: pack-amd64 pack-arm64
+{% endif -%}
 
 # Clean targets
 .PHONY: clean
