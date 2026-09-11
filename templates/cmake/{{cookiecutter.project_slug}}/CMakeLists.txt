@@ -122,3 +122,11 @@ endif()
 enable_testing()
 add_subdirectory(tests)
 {%- endif %}
+
+# -----------------------------------------------------------------------------
+# Benchmark Configuration
+# -----------------------------------------------------------------------------
+{% if cookiecutter.add_benchmark == "yes" -%}
+add_subdirectory(benchmarks)
+{%- endif %}
+

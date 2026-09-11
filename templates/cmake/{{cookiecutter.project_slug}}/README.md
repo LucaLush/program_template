@@ -49,6 +49,28 @@ A modern C++ {{ cookiecutter.project_type.lower() }} project.
    ```
 {%- endif %}
 
+{%- if cookiecutter.add_benchmark == "yes" %}
+## Running Benchmarks
+
+Benchmarks measure code performance using Google Benchmark. **Run benchmarks in Release mode** for accurate results:
+
+### Using CMake Presets
+```bash
+# Build benchmark in release preset
+cmake --build --preset release --target benchmarks
+
+# Execute benchmark binary
+./build/benchmarks/benchmarks
+```
+
+### Traditional CMake
+```bash
+cmake -B build -S . -DCMAKE_BUILD_TYPE=Release {% if cookiecutter.use_vcpkg == "yes" %}-DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake{% endif %}
+cmake --build build --config Release --target benchmarks
+./build/benchmarks/benchmarks
+```
+{%- endif %}
+
 {%- if cookiecutter.use_doxygen == "yes" %}
 ## Generating Documentation
 

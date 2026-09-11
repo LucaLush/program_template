@@ -47,9 +47,11 @@ During instantiation, Cookiecutter will prompt you for the following configurati
 | `cmake_minimum_version` | Minimum required CMake version | `3.20` | e.g. `3.15`, `3.22` |
 | `cpp_standard` | C++ standard version to target | `17` | `11`, `14`, `17`, `20`, `23` |
 | `project_type` | Build output target type | `Executable` | `Executable`, `Library` |
+| `use_ninja` | Use Ninja build generator in presets | `yes` | `yes`, `no` |
 | `use_vcpkg` | Enable vcpkg package manager in manifest mode | `yes` | `yes`, `no` |
 | `use_doxygen` | Configure Doxygen documentation generation target | `yes` | `yes`, `no` |
 | `add_testing` | Add testing support (using CTest & GoogleTest) | `yes` | `yes`, `no` |
+| `add_benchmark` | Add performance benchmark support (using Google Benchmark) | `yes` | `yes`, `no` |
 
 ### 2. Go Project Template
 

@@ -2,8 +2,13 @@
   "name": "{{ cookiecutter.project_slug }}",
   "version-string": "0.1.0",
   "dependencies": [
-    {%- if cookiecutter.add_testing == "yes" %}
+    {%- if cookiecutter.add_testing == "yes" and cookiecutter.add_benchmark == "yes" %}
+    "gtest",
+    "benchmark"
+    {%- elif cookiecutter.add_testing == "yes" %}
     "gtest"
+    {%- elif cookiecutter.add_benchmark == "yes" %}
+    "benchmark"
     {%- endif %}
   ]
 }

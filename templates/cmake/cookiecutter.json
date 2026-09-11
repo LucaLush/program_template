@@ -7,5 +7,6 @@
   "use_ninja": ["yes", "no"],
   "use_vcpkg": ["yes", "no"],
   "use_doxygen": ["yes", "no"],
-  "add_testing": ["yes", "no"]
+  "add_testing": ["yes", "no"],
+  "add_benchmark": ["yes", "no"]
 }
