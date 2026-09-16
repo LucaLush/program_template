@@ -119,7 +119,7 @@ endif()
 # Testing Configuration
 # -----------------------------------------------------------------------------
 {% if cookiecutter.add_testing == "yes" -%}
-enable_testing()
+include(CTest)
 add_subdirectory(tests)
 {%- endif %}
 
