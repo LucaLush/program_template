@@ -4,7 +4,7 @@ A modern C++ {{ cookiecutter.project_type.lower() }} project.
 
 ## Requirements
 
-* CMake >= {{ cookiecutter.cmake_minimum_version }} (>= 3.25 when using `CMakePresets.json`)
+* CMake >= {{ cookiecutter.cmake_minimum_version }} (>= 3.17 for the `Ninja Multi-Config` generator, >= 3.25 when using `CMakePresets.json`)
 * [Ninja](https://ninja-build.org/) (the presets use the `Ninja Multi-Config` generator)
 * C++ compiler supporting C++{{ cookiecutter.cpp_standard }}
 {%- if cookiecutter.use_vcpkg == "yes" %}
