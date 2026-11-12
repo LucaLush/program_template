@@ -1,16 +1,19 @@
 {
-  "version": 3,
+  "version": 6,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 25,
+    "patch": 0
+  },
   "configurePresets": [
     {
       "name": "default",
-      "displayName": "Default Config",
-      "description": "Default configuration using standard compiler",
-      {%- if cookiecutter.use_ninja == "yes" %}
-      "generator": "Ninja",
-      {%- endif %}
+      "displayName": "Default Multi-Config (Ninja)",
+      "description": "使用 Ninja Multi-Config 生成器，一次配置支持所有构建模式",
+      "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
         {%- if cookiecutter.use_vcpkg == "yes" %},
         "CMAKE_TOOLCHAIN_FILE": {
           "type": "FILEPATH",
@@ -18,34 +21,57 @@
         }
         {%- endif %}
       }
-    },
-    {
-      "name": "release",
-      "displayName": "Release Config",
-      "description": "Release configuration",
-      "inherits": "default",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Release"
-      }
     }
   ],
   "buildPresets": [
     {
-      "name": "default",
-      "configurePreset": "default"
+      "name": "debug",
+      "displayName": "Build Debug",
+      "configurePreset": "default",
+      "configuration": "Debug"
+    },
+    {
+      "name": "relwithdebinfo",
+      "displayName": "Build RelWithDebInfo",
+      "configurePreset": "default",
+      "configuration": "RelWithDebInfo"
     },
     {
       "name": "release",
-      "configurePreset": "release"
+      "displayName": "Build Release",
+      "configurePreset": "default",
+      "configuration": "Release"
     }
-  ],
+  ]
+  {%- if cookiecutter.add_testing == "yes" %},
   "testPresets": [
     {
-      "name": "default",
+      "name": "debug",
+      "displayName": "Test Debug",
       "configurePreset": "default",
+      "configuration": "Debug",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "relwithdebinfo",
+      "displayName": "Test RelWithDebInfo",
+      "configurePreset": "default",
+      "configuration": "RelWithDebInfo",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "release",
+      "displayName": "Test Release",
+      "configurePreset": "default",
+      "configuration": "Release",
       "output": {
         "outputOnFailure": true
       }
     }
   ]
+  {%- endif %}
 }

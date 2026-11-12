@@ -4,7 +4,8 @@ A modern C++ {{ cookiecutter.project_type.lower() }} project.
 
 ## Requirements
 
-* CMake >= {{ cookiecutter.cmake_minimum_version }}
+* CMake >= {{ cookiecutter.cmake_minimum_version }} (>= 3.25 when using `CMakePresets.json`)
+* [Ninja](https://ninja-build.org/) (the presets use the `Ninja Multi-Config` generator)
 * C++ compiler supporting C++{{ cookiecutter.cpp_standard }}
 {%- if cookiecutter.use_vcpkg == "yes" %}
 * vcpkg package manager (ensure the `VCPKG_ROOT` environment variable is set)
@@ -17,35 +18,41 @@ A modern C++ {{ cookiecutter.project_type.lower() }} project.
 
 ### Using CMake Presets (Recommended)
 
-1. Configure the project:
+The presets use the `Ninja Multi-Config` generator: configure once into `build/`, then build any of
+`Debug`, `RelWithDebInfo` or `Release` without reconfiguring. `compile_commands.json` is exported to `build/`.
+
+1. Configure the project (only needed once):
    ```bash
    cmake --preset default
    ```
-2. Build the project:
+2. Build the desired configuration:
    ```bash
-   cmake --build --preset default
+   cmake --build --preset debug           # Debug
+   cmake --build --preset relwithdebinfo  # RelWithDebInfo
+   cmake --build --preset release         # Release
    ```
+   Binaries are placed in a per-configuration subdirectory, e.g. `build/Debug/`.
 {%- if cookiecutter.add_testing == "yes" %}
-3. Run tests:
+3. Run tests for a built configuration:
    ```bash
-   ctest --preset default
+   ctest --preset debug
    ```
 {%- endif %}
 
 ### Traditional CMake
 
-1. Create a build directory and configure:
+1. Configure with the multi-config generator:
    ```bash
-   cmake -B build -S . {% if cookiecutter.use_vcpkg == "yes" %}-DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake{% endif %}
+   cmake -B build -S . -G "Ninja Multi-Config" {% if cookiecutter.use_vcpkg == "yes" %}-DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake{% endif %}
    ```
-2. Build:
+2. Build a configuration:
    ```bash
-   cmake --build build
+   cmake --build build --config Debug
    ```
 {%- if cookiecutter.add_testing == "yes" %}
 3. Run tests:
    ```bash
-   cd build && ctest
+   ctest --test-dir build -C Debug
    ```
 {%- endif %}
 
@@ -56,18 +63,18 @@ Benchmarks measure code performance using Google Benchmark. **Run benchmarks in 
 
 ### Using CMake Presets
 ```bash
-# Build benchmark in release preset
+# Build benchmark with the release preset
 cmake --build --preset release --target benchmarks
 
 # Execute benchmark binary
-./build/benchmarks/benchmarks
+./build/benchmarks/Release/benchmarks
 ```
 
 ### Traditional CMake
 ```bash
-cmake -B build -S . -DCMAKE_BUILD_TYPE=Release {% if cookiecutter.use_vcpkg == "yes" %}-DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake{% endif %}
+cmake -B build -S . -G "Ninja Multi-Config" {% if cookiecutter.use_vcpkg == "yes" %}-DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake{% endif %}
 cmake --build build --config Release --target benchmarks
-./build/benchmarks/benchmarks
+./build/benchmarks/Release/benchmarks
 ```
 {%- endif %}
 
@@ -76,7 +83,7 @@ cmake --build build --config Release --target benchmarks
 
 To build documentation, run the following target:
 ```bash
-cmake --build build --target doc
+cmake --build --preset debug --target doc
 ```
 The HTML documentation will be generated in `docs/html/index.html`.
 {%- endif %}
@@ -87,10 +94,10 @@ To install the project files to a system or specific directory:
 
 ```bash
 # Build the project first
-cmake --build build --config Release
+cmake --build --preset release
 
-# Install to a custom prefix directory
-cmake --install build --prefix /path/to/install/directory
+# Install the Release configuration to a custom prefix directory
+cmake --install build --config Release --prefix /path/to/install/directory
 ```
 
 {% if cookiecutter.project_type == "Library" -%}
